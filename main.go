@@ -94,12 +94,7 @@ func (d *direction) checkVisited(inD int) bool {
 }
 
 func (i *imgMap) processNode(x, y int, fromOne bool, fromDir int) {
-	//fromDir schema {up,down,left,right}
-	//fmt.Printf("currently at position %d, %d \n", x, y)
 	i.Visited[x][y].add(fromDir)
-	//fmt.Printf("visited: %d", i.Visited)
-	//fmt.Print("Press 'Enter' to continue...")
-	//bufio.NewReader(os.Stdin).ReadBytes('\n')
 	dirs := [][]int{
 		{-1, 0}, //from right
 		{0, 1},  //from up
