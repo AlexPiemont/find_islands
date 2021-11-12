@@ -4,30 +4,53 @@ import (
 	"fmt"
 )
 
-type coordinate struct {
-	X       int
-	Y       int
-	Visited bool
-	Value   int
+type imgMap struct {
+	Inmap   [][]int
+	Visited [][]int
+	Outmap  [][]int
 }
 
-/*func processNodes(x int, y int, visited [][]int, queue [][]int) {
-	result := [len(queue)][len(queue[0])]int
-	visited[x][y] = 1
-	if queue[x][y] == 1 {
-
+func makeImgMap(input [][]int) imgMap {
+	ret := imgMap{}
+	ret.Inmap = input
+	ret.Outmap = make([][]int, len(input))
+	for i := range ret.Outmap {
+		ret.Outmap[i] = make([]int, len(input[i]))
 	}
-
-}*/
-
-/*func removeIslands(input [][]int) [][]int{
-	output := [][]int{
-		input[0]
+	ret.Visited = make([][]int, len(input))
+	for i := range ret.Visited {
+		ret.Visited[i] = make([]int, len(input[i]))
 	}
-	output[len(input)-1] = input[len(input)-1]
-	for i := 1; i<len(input)
-}*/
-
+	return ret
+}
+func (i *imgMap) processNode(x, y int) {
+	fmt.Printf("currently at position %d, %d \n", x, y)
+	i.Visited[x][y] = 1
+	fmt.Printf("visited: %d", i.Visited)
+	//fmt.Print("Press 'Enter' to continue...")
+	//bufio.NewReader(os.Stdin).ReadBytes('\n')
+	dirs := [][]int{
+		{-1, 0},
+		{0, 1},
+		{1, 0},
+		{0, -1},
+	}
+	if i.Inmap[x][y] == 1 || x == 0 || y == 0 || x == len(i.Inmap[0])-1 || y == len(i.Inmap)-1 {
+		i.Outmap[x][y] = i.Inmap[x][y]
+		for j := 0; j < len(dirs); j++ {
+			if x+dirs[j][0] >= 0 && y+dirs[j][1] >= 0 && x+dirs[j][0] < len(i.Inmap[0]) && y+dirs[j][1] < len(i.Inmap) {
+				if i.Visited[x+dirs[j][0]][y+dirs[j][1]] == 0 {
+					i.processNode(x+dirs[j][0], y+dirs[j][1])
+				}
+			}
+		}
+	}
+}
+func removeIslands(input [][]int) [][]int {
+	mp := makeImgMap(input)
+	mp.processNode(0, 0)
+	return mp.Outmap
+}
 func main() {
 	queue := [][]int{
 		{0, 1, 1, 0, 0},
@@ -36,10 +59,12 @@ func main() {
 		{0, 0, 1, 0, 0},
 		{1, 1, 0, 0, 1},
 	}
-	result := make([][]int, len(queue))
-	for i := range result {
-		result[i] = make([]int, len(queue[i]))
-	}
-	fmt.Println(result)
-	fmt.Println(queue)
+	mp := makeImgMap(queue)
+	fmt.Println(mp.Visited)
+	fmt.Println(mp.Outmap)
+	mp.processNode(0, 0)
+	fmt.Println(mp.Inmap)
+	fmt.Println(mp.Visited)
+	fmt.Println(mp.Outmap)
+
 }
