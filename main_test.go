@@ -45,22 +45,3 @@ func TestCenterIsland(t *testing.T) {
 		t.Fatalf("\nExpected: %v \nGot: %v", expected, output)
 	}
 }
-
-/*
-func TestUp(t *testing.T) {
-	queues := [][]int{
-		{},        // G
-		{},        // 1
-		{5, 5, 5}, // 2
-		{},        // 3
-		{},        // 4
-		{},        // 5
-		{},        // 6
-	}
-	bldg := NewBuilding(queues, 5)
-	bldg.moveElevator()
-	if !reflect.DeepEqual(bldg.El.History, []int{0, 2, 5, 0}) {
-		t.Fatalf(`Expected: {0, 2, 5, 0} Got: %v`, bldg.El.History)
-	}
-}
-*/
